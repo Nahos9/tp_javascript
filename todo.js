@@ -5,7 +5,6 @@ import { createElemen } from "./functions/dom.js";
 try{
 
     const todos = await fetchJSON('https://jsonplaceholder.typicode.com/todos?_limit=5')
-    console.log(todos)
     const list = new TodoList(todos)
     list.appendTo(document.querySelector('#todolist'))
     const div = document.querySelector('#todolist')
