@@ -50,7 +50,7 @@ export class TodoList {
         `
         this.#liste = element.querySelector('.list-group')
             for(let todo of this.#todos){
-                const tache = new TodoListItem(todo)
+               const tache = new TodoListItem(todo)
                this.#liste.append(tache.element)
             }
 
@@ -59,8 +59,13 @@ export class TodoList {
     }
 
     onsubmit(e){
+        //il faut toujours placer le preventDefault() en debut
         e.preventDefault()
-        const title = new FormData(e.currentTarget).get('title').toString().trim()
+      
+        const form = e.currentTarget
+
+        const title = new FormData(form).get('title').toString().trim()
+
         if(title == ''){
             return
         }
@@ -72,11 +77,9 @@ export class TodoList {
         }
         
        const li =  new TodoListItem(todo)
-       li.element.prepend(this.#liste)
-    //    li.appendTo(this.#liste)
+        this.#liste.prepend(li.element)
 
-       
-
+        form.reset()
     }
 }
 
