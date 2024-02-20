@@ -17,6 +17,6 @@ try{
         role : 'alert'
     })
     alertElement.innerHTML = 'Impossible de charger les données!!'
-
     document.body.prepend(alertElement)
+    console.error(e)
 }

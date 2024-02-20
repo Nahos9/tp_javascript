@@ -55,7 +55,9 @@ export class TodoList {
             }
 
       element.querySelector('form').addEventListener('submit',(e)=> this.onsubmit(e))
-
+      element.querySelectorAll('button').forEach(btn=>btn.addEventListener('click',(e)=>{
+            this.#toggleFiler(e)
+      }))
     }
 
     onsubmit(e){
@@ -81,6 +83,23 @@ export class TodoList {
 
         form.reset()
     }
+
+    #toggleFiler(e){
+        e.preventDefault()
+        const filer = e.currentTarget.getAttribute('data-filter')
+        e.currentTarget.parentElement.querySelector('.active').classList.remove('active')
+        e.currentTarget.classList.add('active')
+            if(filer === 'todo'){
+                this.#liste.classList.add('hide-completed')
+                this.#liste.classList.remove('hide-todo')
+            }else if(filer === 'done'){
+                this.#liste.classList.add('hide-todo')
+                this.#liste.classList.remove('hide-completed')
+            }else{
+                this.#liste.classList.remove('hide-completed')
+                this.#liste.classList.remove('hide-todo')
+            }
+    }
 }
 
 class TodoListItem{
@@ -88,9 +107,11 @@ class TodoListItem{
     #element
 
     constructor(todo){
+        
         const li = createElemen('li',{
             class:'todo list-group-item d-flex align-items-center'
         })
+        this.#element = li
 
         const id = `todo-${todo.id}`
         const checkbox = createElemen('input',{
@@ -113,12 +134,13 @@ class TodoListItem{
         </i>`
 
         li.append(checkbox)
+        this.toggle(checkbox)
         li.append(label)
         li.append(button)
+        li
 
         button.addEventListener('click',() => this.remove())
 
-        this.#element = li
     }
 
     get element(){
@@ -131,5 +153,13 @@ class TodoListItem{
 
     remove(){
         this.#element.remove()
+    }
+
+    toggle(checkbox){
+        if(checkbox.checked){
+            this.#element.classList.add('is-completed')
+        }else{
+            this.#element.classList.remove('is-completed')
+        }
     }
 }
